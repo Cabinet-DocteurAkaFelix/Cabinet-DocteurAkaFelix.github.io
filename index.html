@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dr Aka Félix – Naturothérapeute | Côte d'Ivoire</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- AOS Animation -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #f9f9f9; 
+      color: #2d2d2d;
+      scroll-behavior: smooth;
+    }
+
+    /* Header fixe */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(90deg, #2e4d3a, #1c2f22);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: gold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-toggle {
+      font-size: 24px;
+      color: gold;
+      cursor: pointer;
+      display: none;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-toggle.active {
+      transform: rotate(90deg);
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100vh;
+      background: #1c2f22;
+      padding: 70px 20px 20px;
+      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.3);
+      transition: right 0.4s ease;
+      z-index: 998;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      overflow-y: auto;
+    }
+
+    nav.active {
+      right: 0;
+    }
+
+    nav a {
+      color: gold;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,215,0,0.2);
+    }
+
+    nav a:hover {
+      color: #ffd700;
+      border-bottom-color: gold;
+    }
+
+    /* Contenu principal */
+    main {
+      padding-top: 0;
+      padding-bottom: 60px;
+    }
+
+    section {
+      display: none;
+      padding: 60px 20px;
+      max-width: 900px;
+      margin:50px auto 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease;
+      position: relative;
+      z-index: 10;
+      background-color: #f9f9f9;
+    }
+
+    section.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fully-hidden {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      position: absolute !important;
+    }
+
+    /* Hero */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+      min-height: calc(100vh - 50px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: gold;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .hero button {
+      background: gold;
+      color: #2e4d3a;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero button:hover {
+      background: #e6c200;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Sections internes */
+    .presentation,
+    .categories,
+    .recette-mois,
+    .temoignage,
+    .contact-form {
+      margin: 2rem 0;
+    }
+
+    .presentation img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid gold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .presentation {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .presentation-text {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .presentation-text p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .categorie {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      flex: 1 1 200px;
+      min-width: 180px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .categorie:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .categorie i {
+      font-size: 2rem;
+      color: #2e4d3a;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .recette-mois {
+      background: white;
+      padding: 1.5rem;
+      border-left: 5px solid gold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border-radius: 5px;
+      margin-top: 2rem;
+    }
+
+    .recette-mois h3 {
+      color: #2e4d3a;
+      margin-bottom: 0.5rem;
+    }
+
+    .recette-mois a {
+      color: #2e4d3a;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .recette-mois a:hover {
+      color: gold;
+    }
+
+    .temoignage {
+      font-style: italic;
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 1.1rem;
+      color: #555;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .temoignage-author {
+      font-weight: bold;
+      margin-top: 1rem;
+      color: #2e4d3a;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: gold;
+      outline: none;
+    }
+
+    .contact-form button {
+      background: #2e4d3a;
+      color: gold;
+      padding: 12px 25px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .contact-form button:hover {
+      background: #3a5d46;
+      transform: translateY(-2px);
+    }
+
+    /* Section Vidéos */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .video-container {
+  width: 100%;
+  height: 30;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: #000;
+
+   
+    }
+
+    .video-description {
+      text-align: center;
+      font-style: italic;
+      color: #555;
+    }
+
+    /* Badge Côte d'Ivoire */
+    .ivoirien-badge {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(to right, #f77f00, white, #009e60);
+      color: #1a1a1a;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      z-index: 997;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    footer {
+      background: #2e4d3a;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .social-links a {
+      color: gold;
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .presentation {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      nav {
+        top: 70px;
+        right: -250px;
+        padding: 30px 20px 20px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      section {
+        padding: 40px 20px;
+      }
+      .videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+
+  }
+
+  .video-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+
+  .video-info {
+    padding: 1.5rem;
+  }
+
+  .video-info h3 {
+    color: #2e4d3a;
+    margin-bottom: 0.8rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+  }
+
+  .video-info h3 i {
+    color: gold;
+    margin-right: 10px;
+  }
+
+  .video-meta {
+    display: flex;
+    gap: 1rem;
+    color: #777;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .video-meta i {
+    margin-right: 5px;
+  }
+
+  .video-description {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .video-btn {
+    display: inline-block;
+    color: #2e4d3a;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+  .video-btn:hover {
+    color: gold;
+  }
+
+  .video-btn i {
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+  }
+
+  .video-btn:hover i {
+    transform: translateX(3px);
+  }
+
+  .video-cta {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8f8f8, #ffffff);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .video-cta p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #2e4d3a;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .cta-button i {
+    margin-right: 10px;
+  }
+
+  .cta-button.youtube-btn {
+    background: #ff0000;
+    color: white;
+  }
+
+  .cta-button.youtube-btn:hover {
+    background: #cc0000;
+    transform: translateY(-2px);
+  }
+
+  .cta-button {
+    background: #2e4d3a;
+    color: gold;
+  }
+
+  .cta-button:hover {
+    background: #3a5d46;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .videos-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .video-cta {
+      padding: 1.5rem;
+    }
+    
+    .cta-buttons {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .cta-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+    
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <span>🌿</span>
+    <span>Dr Aka Félix</span>
+  </div>
+  <div class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav id="navbar">
+  <a href="#" data-target="accueil">Accueil</a>
+  <a href="#" data-target="apropos">À propos</a>
+  <a href="#" data-target="recettes">Recettes</a>
+  <a href="#" data-target="videos">Vidéos Conférences</a>
+  <a href="#" data-target="contact">Contact</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+  <!-- ACCUEIL -->
+  <section id="accueil" class="hero">
+    <div class="hero-content">
+      <h1>Naturothérapeute & Hygiéniste</h1>
+      <p>Découvrez les secrets des plantes pour une santé durable, selon les traditions anciennes.</p>
+      <button onclick="navigateToSection('apropos')">En savoir plus</button>
+    </div>
+  </section>
+
+  <!-- À PROPOS -->
+  <section id="apropos" data-aos="fade-up">
+    <h2 class="section-title">À propos du Dr Aka Félix</h2>
+    <div class="presentation">
+    <img src="images/docteur Aka Félix1.jpg" alt="Photo du Dr Henri">
+      <div class="presentation-text">
+        <p><strong>Je suis passionné par la naturothérapie depuis plus de 43 ans, mettant en avant une approche scientifique de la médecine naturelle. Ma pratique est centrée sur l'utilisation des facteurs naturels de santé pour promouvoir le bien-être global.</strong></p>
+        <li><strong>Expérience Professionnelle</strong></li>
+       <p>Hygiéniste Naturothérapeute
+Depuis 1980
+J'ai consacré ma carrière à aider les individus à améliorer leur santé par une alimentation équilibrée et des méthodes naturelles. Mon approche est fondée sur une compréhension profonde des besoins individuels et des principes de la naturothérapie.</p>
+        <p>Spécialiste des plantes médicinales d'Afrique de l'Ouest, je combine savoir ancestral et approche moderne pour des solutions naturelles adaptées à votre bien-être.</p>
+        <p>Mes consultations privées et ateliers en Côte d'Ivoire ont aidé des centaines de personnes à retrouver santé et harmonie.</p>
+        <li><strong>Conférences et Interviews</strong></li>
+       
+         <img src="images/docteur Aka Félix2.jpg" alt="Photo du Dr Aka Félix" style="width: 300px; height: 300px; object-fit: cover; border-radius: 8px;">
+       
+        <p>J'ai partagé mon expertise lors de nombreuses conférences et interviews, notamment sur l'impact de l'alimentation sur la santé mentale,physique et spirituel.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECETTES -->
+  <section id="recettes" data-aos="fade-up">
+    <h2 class="section-title">Recettes Naturelles</h2>
+    <div class="categories">
+      <div class="categorie">
+        <i class="fas fa-leaf"></i>
+        <h3>Plantes médicinales</h3>
+        <p>Remèdes à base de plantes locales</p>
+      </div>
+      <div class="categorie">
+        <i class="fas fa-recycle"></i>
+        <h3>Détox & Purification</h3>
+        <p>Nettoyage du corps et de l'esprit</p>
+      </div>
+      <div class="categorie">
+        <i class="fas fa-heart"></i>
+        <h3>Équilibre émotionnel</h3>
+        <p>Gestion du stress et des émotions</p>
+      </div>
+      <div class="categorie">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Immunité renforcée</h3>
+        <p>Renforcement des défenses naturelles</p>
+      </div>
+    </div>
+    <div class="recette-mois">
+      <h3>Thé Détox au Neem et Gingembre</h3>
+      <p>Une infusion puissante à base de plantes ivoiriennes pour purifier l'organisme et booster l'énergie vitale. Recette ancestrale adaptée à la vie moderne.</p>
+      <a href="#">→ Voir la recette complète</a>
+    </div>
+    
+    <div class="temoignage">
+      <p>"Le thé du Dr Henri a transformé ma santé digestive. Après des années de problèmes, je me sens enfin légère et énergique!"</p>
+      <div class="temoignage-author">- Aïcha, Abidjan</div>
+    </div>
+  </section>
+
+  <!-- VIDÉOS -->
+  
+<section id="videos" data-aos="fade-up">
+  <h2 class="section-title">Vidéos & Formations</h2>
+
+  <div class="videos-grid">
+    <!-- Vidéo locale 1 -->
+    <div class="video-card">
+      <div class="video-container">
+        <video controls playsinline style="width: 100%; height: auto; display: block; border-radius: 8px;">
+          <source src="videos/COMMENT SOIGNER LE DYSFONCTIONNEMENT ÉRECTILE PAR LE DR AKA FELIX(480P).mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+        </video>
+      </div>
+      <div class="video-info">
+        <h3><i class="fas fa-play-circle"></i> Plantes médicinales ivoiriennes</h3>
+        <p class="video-meta">
+          <span><i class="far fa-clock"></i> 15:24</span>
+          <span><i class="far fa-eye"></i> 12K vues</span>
+        </p>
+        <p class="video-description">Interview exclusive du Dr Henri sur les secrets des plantes locales pour une santé optimale.</p>
+        <a href="videos/plantes-medicinales.mp4" class="video-btn" download>Télécharger la vidéo <i class="fas fa-arrow-down"></i></a>
+      </div>
+    </div>
+
+    <!-- Vidéo locale 2 -->
+    <div class="video-card">
+      <div class="video-container">
+        <video controls playsinline style="width: 100%; height: auto; display: block; border-radius: 8px;">
+          <source src="videos/LES SECRETS DU BONHEUR _  GINGEMBRE- LAURIER-CANNELLE-CLOUS DE GIROFLE PAR LE DR AKA FELIX(480P).mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+        </video>
+      </div>
+      <div class="video-info">
+        <h3><i class="fas fa-play-circle"></i> Baume anti-douleur à faire maison</h3>
+        <p class="video-meta">
+          <span><i class="far fa-clock"></i> 22:10</span>
+          <span><i class="far fa-eye"></i> 8.5K vues</span>
+        </p>
+        <p class="video-description">Atelier pratique pour préparer un baume naturel contre les douleurs articulaires.</p>
+        <a href="videos/baume-anti-douleur.mp4" class="video-btn" download>Télécharger la vidéo <i class="fas fa-arrow-down"></i></a>
+      </div>
+    </div>
+  </div>
+
+    <!-- Vidéo locale 3 -->
+    <div class="video-card">
+      <div class="video-container">
+        <video controls playsinline style="width: 100%; height: auto; display: block; border-radius: 8px;">
+          <source src="videos/Accident Vasculaire Cérébral (AVC)_ Dr. AKA Félix propose ses recettes à base d_aliments et conseils(720P_HD).mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+        </video>
+      </div>
+      <div class="video-info">
+        <h3><i class="fas fa-play-circle"></i> Baume anti-douleur à faire maison</h3>
+        <p class="video-meta">
+          <span><i class="far fa-clock"></i> 22:10</span>
+          <span><i class="far fa-eye"></i> 8.5K vues</span>
+        </p>
+        <p class="video-description">Atelier pratique pour préparer un baume naturel contre les douleurs articulaires.</p>
+        <a href="videos/baume-anti-douleur.mp4" class="video-btn" download>Télécharger la vidéo <i class="fas fa-arrow-down"></i></a>
+      </div>
+    </div>
+  </div>
+
+    <!-- Vidéo locale 4 -->
+    <div class="video-card">
+      <div class="video-container">
+        <video controls playsinline style="width: 100%; height: auto; display: block; border-radius: 8px;">
+          <source src="videos/LES SECRETS DU BONHEUR _  GINGEMBRE- LAURIER-CANNELLE-CLOUS DE GIROFLE PAR LE DR AKA FELIX(480P).mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+        </video>
+      </div>
+
+            <div class="video-info">
+        <h3><i class="fas fa-play-circle"></i> Baume anti-douleur à faire maison</h3>
+        <p class="video-meta">
+          <span><i class="far fa-clock"></i> 22:10</span>
+          <span><i class="far fa-eye"></i> 8.5K vues</span>
+        </p>
+        <p class="video-description">Atelier pratique pour préparer un baume naturel contre les douleurs articulaires.</p>
+        <a href="videos/baume-anti-douleur.mp4" class="video-btn" download>Télécharger la vidéo <i class="fas fa-arrow-down"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-cta">
+    <p>Abonnez-vous pour ne manquer aucune nouvelle vidéo !</p>
+    <div class="cta-buttons">
+      <a href="#" class="cta-button youtube-btn">
+        <i class="fas fa-folder-open"></i> Galerie locale
+      </a>
+      <a href="#videos" class="cta-button">
+        <i class="fas fa-video"></i> Toutes les vidéos
+      </a>
+    </div>
+  </div>
+</section>
+  <!-- CONTACT -->
+  <section id="contact" data-aos="fade-up">
+    <h2 class="section-title">Consultation Privée</h2>
+    <div class="contact-form">
+      <form id="contactForm">
+        <input type="text" name="nom" placeholder="Votre nom" required />
+        <input type="email" name="email" placeholder="Votre email" required />
+        <input type="tel" name="phone" placeholder="Votre téléphone" />
+        <textarea name="message" rows="5" placeholder="Votre demande ou message" required></textarea>
+        <button type="submit">Envoyer votre demande</button>
+      </form>
+    </div>
+    
+    <div style="text-align: center; margin-top: 2rem;">
+      <p><i class="fas fa-phone"></i> +225 05 95 65 40 83</p>
+        <p><i class="fas fa-phone"></i> +225 05 86 69 05 96</p>
+      <p><i class="fas fa-envelope"></i> docteurakafelix@gmail.com</p>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="social-links">
+    <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/2250595654083" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  </div>
+  <p>&copy; 2025 Dr Aka Félix – Naturothérapeute. Tous droits réservés.</p>
+  <p><small>Abidjan, Côte d'Ivoire</small></p>
+</footer>
+
+<!-- Badge Côte d'Ivoire -->
+<div class="ivoirien-badge">
+  <i class="fas fa-map-marker-alt"></i>
+  <span></span>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script> 
+<script>
+  // Initialiser AOS animation
+  AOS.init({
+    duration: 800,
+    once: true
+  });
+
+  // Menu Hamburger
+  const toggle = document.getElementById("menuToggle");
+  const nav = document.getElementById("navbar");
+
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggle.classList.toggle("active");
+    nav.classList.toggle("active");
+  });
+
+  // Fermer le menu si clic à l'extérieur
+  document.addEventListener("click", (e) => {
+    if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+      toggle.classList.remove("active");
+      nav.classList.remove("active");
+    }
+  });
+
+  // Navigation interne
+  const links = document.querySelectorAll("nav a[data-target]");
+  const sections = document.querySelectorAll("section");
+
+  function navigateToSection(sectionId) {
+    // 1. Masquer TOUTES les sections radicalement
+    sections.forEach(section => {
+      section.classList.remove('active');
+      section.classList.add('fully-hidden');
+    });
+
+    // 2. Afficher UNIQUEMENT la section cible
+    const target = document.getElementById(sectionId);
+    if (target) {
+      target.classList.remove('fully-hidden');
+      target.classList.add('active');
+      
+      // 3. Scroll doux vers la section
+      window.scrollTo({
+        top: sectionId === 'accueil' ? 0 : target.offsetTop - 70,
+        behavior: 'smooth'
+      });
+    }
+
+    // 4. Fermer le menu mobile
+    toggle.classList.remove("active");
+    nav.classList.remove("active");
+  }
+
+  // Pour compatibilité avec l'ancien code
+  function scrollToSection(sectionId) {
+    navigateToSection(sectionId);
+  }
+
+  links.forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const target = link.getAttribute("data-target");
+      navigateToSection(target);
+    });
+  });
+
+  // Gestion du formulaire
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Merci pour votre message! Le Dr Henri vous contactera bientôt.");
+      contactForm.reset();
+    });
+  }
+
+  // Initialisation au chargement
+  window.addEventListener('load', function() {
+    const hash = window.location.hash.substring(1) || 'accueil';
+    navigateToSection(hash);
+  });
+</script>
+
+</body>
+</html>
